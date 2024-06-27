@@ -1,71 +1,71 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Content.css";
 import image_focus from "../../images/focus.webp";
 import image_trending from "../../images/ad.webp";
+import { StoreContext } from "../../context/StoreContext";
 
 const Content = () => {
+  const { blogs, incrementViews, popular } = useContext(StoreContext);
+  const latestPost = blogs[blogs.length - 1];
+  const adminChoice = blogs[1];
+
   return (
     <div className="content" id="content">
       <div className="content-left">
-        <Link to="" className="content-focus">
+        <Link
+          to=""
+          onClick={() => incrementViews(latestPost._id)}
+          className="content-focus"
+        >
           <div className="content-focus-image">
             <img src={image_focus} alt="" />
           </div>
           <div className="content-focus-title">
-            <b>RELATIONSHIPS</b>
-            <h1>Rejecting Someone Can Be Done Nicely - Here's How</h1>
+            <b>{latestPost.tag}</b>
+            <h1>{latestPost.title}</h1>
             <br />
-            <p>Reviewed by Divya Robin, LMHC</p>
+            <p>{latestPost.author}</p>
           </div>
         </Link>
         <div className="content-slide">
-          <div className="content-slide-card content-focus-title">
-            <Link to="">
-              <b>RELATIONSHIPS</b>
-              <h2>Rejecting Someone Can Be Done Nicely - Here's How</h2>
+          {popular?.map((item, index) => (
+            <Link
+              to=""
+              key={index}
+              onClick={() => incrementViews(item._id)}
+              className="content-slide-card content-focus-title"
+            >
+              <b>{item.tag}</b>
+              <h2>{item.title}</h2>
               <br />
-              <p>Reviewed by Divya Robin, LMHC</p>
+              <p>{item.author}</p>
             </Link>
-          </div>
-          <div className="content-slide-card content-focus-title">
-            <Link to="">
-              <b>Living-Well</b>
-              <h2>Rejecting Someone Can Be Done Nicely - Here's How</h2>
-              <br />
-              <p>Reviewed by Divya Robin, LMHC</p>
-            </Link>
-          </div>
-          <div className="content-slide-card content-focus-title">
-            <Link to="">
-              <b>SELF-IMPROVEMENT</b>
-              <h2>Rejecting Someone Can Be Done Nicely - Here's How</h2>
-              <br />
-              <p>Reviewed by Divya Robin, LMHC</p>
-            </Link>
-          </div>
+          ))}
         </div>
       </div>
       <div className="content-right">
-        <Link to="" className="content-trending">
+        <Link
+          to=""
+          onClick={() => incrementViews(adminChoice._id)}
+          className="content-trending"
+        >
           <div className="content-trending-image">
             <img src={image_trending} alt="" />
           </div>
-          <div className="content-trending-joiner">Trending</div>
+          <div className="content-trending-joiner">জনপ্রিয়</div>
           <div className="content-trending-title">
-            <h2>
-              What's Your DISC Personality Type? Take This Quiz to Find Out
-            </h2>
+            <h2>{adminChoice.title}</h2>
             <br />
-            <button>Read Now</button>
+            <button>এখন পড়ুন</button>
           </div>
         </Link>
         <div className="content-therapy">
-          <h2>Online Therapy</h2>
+          <h2>অনলাইন থেরাপি</h2>
           <br />
-          <p>Get help today from the comfort of your home</p>
-          <Link to="">Top Services 2024</Link>
-          <Link to="">Learn More</Link>
+          <p>আপনার বাড়ির আরাম থেকে আজ সাহায্য পান</p>
+          <Link to="">সেরা পরিষেবা 2024</Link>
+          <Link to="">আরও জানুন</Link>
         </div>
       </div>
     </div>

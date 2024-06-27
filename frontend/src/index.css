@@ -1,3 +1,5 @@
+@import url("https://fonts.maateen.me/kalpurush/font.css");
+
 :root {
   --color-deep: #13404f;
   --color-bg: #f7f9f9;
@@ -13,8 +15,16 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
   scroll-behavior: smooth;
+  font-family: "kalpurush", Arial, sans-serif;
+}
+
+:lang(en) {
+  font-family: Arial, sans-serif;
+}
+
+:lang(bn) {
+  font-family: "kalpurush", Arial, sans-serif;
 }
 
 body {
@@ -27,6 +37,11 @@ body {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
 }
 
 @keyframes fadeIn {

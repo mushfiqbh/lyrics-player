@@ -1,0 +1,163 @@
+
+
+.showcase-loadmore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.showcase-loadmore b {
+  padding: 7px 20px;
+  margin: 0 20px;
+  font-size: large;
+  color: #fff;
+  background-color: var(--color-deepest);
+  border-radius: 5px 0;
+  cursor: pointer;
+}
+
+.showcase-loadmore button {
+  border: none;
+  color: var(--color-deepest);
+  background-color: transparent;
+  border-radius: 5px 0;
+  cursor: pointer;
+}
+
+.showcase-loadmore span {
+  font-size: 20px;
+}
+
+.showcase-list {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+}
+
+.showcase-list hr {
+  opacity: 0.3;
+}
+
+.showcase-list-single {
+  width: 70%;
+  cursor: pointer;
+}
+
+.showcase-list-single h4 {
+  color: var(--color-green);
+}
+
+.showcase-list-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.showcase-list-title {
+  width: 85%;
+}
+
+.showcase-list-image {
+  width: 15%;
+}
+
+.showcase-list-image img {
+  padding: 5px 0;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.showcase-list-single:hover h3 {
+  color: var(--color-red);
+}
+
+.showcase-grid {
+  width: 100%;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.showcase-grid-single {
+  color: var(--color-deep);
+  background-color: #fff;
+  border-radius: 10px;
+  border-right: 5px solid rgb(240, 240, 240);
+  border-bottom: 5px solid rgb(240, 240, 240);
+}
+
+.showcase-grid-image {
+  height: 150px;
+  position: relative;
+  overflow: hidden;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.showcase-grid-image img {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s ease-in-out;
+}
+
+.showcase-grid-single:hover img {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.showcase-grid-title {
+  padding: 1rem;
+}
+
+.showcase-grid-title b {
+  text-transform: uppercase;
+  color: var(--color-green);
+}
+
+.showcase-grid-title p {
+  color: var(--color-silver);
+}
+
+.showcase-grid-single:hover h3 {
+  color: var(--color-red);
+}
+
+@media (max-width: 480px) {
+  .showcase-list-single {
+    padding: 0 10px;
+    width: 100%;
+  }
+
+  .showcase-list-title {
+    width: 100%;
+    padding-bottom: 10px;
+  }
+
+  .showcase-list-image {
+    display: none;
+  }
+
+  .showcase-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+  }
+
+  .showcase-grid-image {
+    height: 100px;
+  }
+
+  .showcase-grid-title {
+    padding: 10px;
+  }
+
+  .showcase-grid-title h3 {
+    font-size: medium;
+  }
+}

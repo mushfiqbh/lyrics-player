@@ -27,7 +27,7 @@
 .promise-process a {
   padding: 1rem;
   color: #fff;
-  border-radius: 1rem 0;
+  border-radius: 10px 0;
   background-color: var(--color-green);
   transition: all 0.2s;
 }
@@ -92,7 +92,7 @@
   align-self: start;
   padding: 1rem;
   color: #fff;
-  border-radius: 1rem 0;
+  border-radius: 10px 0;
   background-color: var(--color-green);
   transition: all 0.2s;
 }

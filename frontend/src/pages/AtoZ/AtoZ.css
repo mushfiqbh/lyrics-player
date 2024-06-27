@@ -1,0 +1,104 @@
+.atoz {
+  width: 100%;
+  padding: 20px calc(10% + 20px);
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--color-gree);
+}
+
+.atoz-animdot {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 50px;
+}
+
+.atoz-animdot a:hover {
+  color: var(--color-red);
+}
+
+.atoz-animdot video {
+  height: 70px;
+  width: 70px;
+}
+
+.atoz-alpha,
+.atoz-block {
+  width: 80%;
+  margin: 0 10%;
+}
+
+.atoz-alpha {
+  padding: 20px;
+  background-color: #fff;
+}
+
+.atoz-alpha h3 {
+  color: var(--color-deepest);
+}
+
+.atoz-alpha > div {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+  gap: 5px;
+  margin-top: 5px;
+}
+
+.atoz-alpha b {
+  width: 40px;
+  text-align: center;
+  padding: 6px 10px;
+  border-radius: 5px 0;
+  border: 1px solid var(--color-green);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.atoz-alpha b:hover,
+.atoz-alpha b.active {
+  color: #fff;
+  background-color: var(--color-green);
+}
+
+.atoz-block {
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  font-weight: bold;
+  background-color: #fff;
+  padding: 20px;
+  gap: 20px;
+}
+
+.atoz-block a span {
+  opacity: 0.7;
+}
+
+.atoz-block a:hover {
+  color: var(--color-red);
+}
+
+@media (max-width: 1024px) {
+  .atoz {
+    padding: 20px;
+    flex-direction: column;
+  }
+
+  .atoz-animdot {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 20px;
+  }
+
+  .atoz-animdot video {
+    width: 50px;
+    height: 50px;
+  }
+
+  .atoz-alpha,
+  .atoz-block {
+    width: 100%;
+    margin: 0;
+  }
+}

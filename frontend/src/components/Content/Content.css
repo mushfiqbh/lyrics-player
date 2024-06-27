@@ -55,8 +55,8 @@
   color: var(--color-silver);
 }
 
-.content-focus-title h1:hover,
-.content-focus-title h2:hover {
+.content-focus:hover h1,
+.content-slide-card:hover h2 {
   color: var(--color-red);
 }
 

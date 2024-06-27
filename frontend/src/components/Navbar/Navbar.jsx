@@ -5,29 +5,32 @@ import "./Navbar.css";
 
 const Navbar = () => {
   return (
-    <div className="navbar">
-      <div className="navbar-brand">
-        <div className="menu-btn">
-          <img src={assets.update} alt="" />
-        </div>
-        <Link to="/">
-          <img src={assets.brand} alt="" />
+    <header>
+      <div className="navbar" id="navbar">
+        <Link to="/search" className="navbar-menu">
+          <img src={assets.menu} alt="" />
         </Link>
 
-        <div className="navbar-brand-links">
-          <a href="#">Condition A-Z</a>
-          <a href="#">Therapy</a>
-          <a href="#">Living Well</a>
-          <a href="#">Relationships</a>
-          <a href="#">Psychology</a>
-          <a href="#">Trending</a>
-          <a href="#">About Us</a>
+        <div className="flex">
+          <Link to="/" className="navbar-brand">
+            <img src={assets.brand} alt="" />
+          </Link>
+          <div className="navbar-links">
+            <NavLink to="/overview">এটুজেড</NavLink>
+            <NavLink to="/therapy">থেরাপি</NavLink>
+            <NavLink to="/living-well">জীবন</NavLink>
+            <NavLink to="/relationship">সম্পর্ক</NavLink>
+            <NavLink to="/psychology">মনোবিজ্ঞান</NavLink>
+            <NavLink to="/trending">জনপ্রিয়</NavLink>
+            <NavLink to="/about">আমাদের</NavLink>
+          </div>{" "}
         </div>
+
+        <Link to="/search" className="navbar-search">
+          <img src={assets.search} alt="search" />
+        </Link>
       </div>
-      <div className="navbar-search">
-        <img src={assets.search} alt="search" />
-      </div>
-    </div>
+    </header>
   );
 };
 

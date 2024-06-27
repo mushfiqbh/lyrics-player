@@ -46,37 +46,12 @@
   border-bottom: 5px solid rgb(240, 240, 240);
 }
 
-.explore-atoz {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  list-style-type: none;
-  row-gap: 20px;
-}
-
-.explore-atoz a {
-  height: 50px;
-  width: 50px;
-  text-align: center;
-  padding: 16px 0;
-  color: var(--color-deep);
-  border: 1px solid silver;
-  border-radius: 5px 0;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.explore-atoz a:hover {
-  border: hidden;
-  color: #fff;
-  background-color: var(--color-green);
-}
-
 .explore-animdot {
-  margin-top: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
   text-align: center;
+  row-gap: 20px;
 }
 
 .explore-animdot a:hover {
@@ -104,19 +79,13 @@
     padding-left: 0;
   }
 
-  .explore-atoz {
-    width: 100%;
-    grid-template-columns: repeat(5, 1fr);
-  }
-
   .explore-animdot {
     width: 100%;
-    display: grid;
     grid-template-columns: repeat(3, 1fr);
   }
 
   .explore-animdot video {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
   }
 }

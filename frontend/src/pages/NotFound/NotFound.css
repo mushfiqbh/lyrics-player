@@ -1,0 +1,13 @@
+.not-found {
+    width: 80%;
+    margin: 0 10%;
+    padding: 20px;
+}
+
+@media (max-width:480px) {
+    .not-found {
+        width: 100%;
+        margin: 0;
+        padding: 10px;
+    }
+}
