@@ -4,7 +4,7 @@ import DOMPurify from "dompurify";
 import { useQuill } from "react-quilljs";
 import "quill/dist/quill.snow.css";
 
-const Post = () => {
+const Admin = () => {
   const { quill, quillRef } = useQuill();
   const [data, setData] = useState("<h1>world</h1>");
   const sanitizedContent = DOMPurify.sanitize(data);
@@ -79,10 +79,10 @@ const Post = () => {
   return (
     <div className="post">
       <div ref={quillRef} id="editor"></div>
-      <div dangerouslySetInnerHTML={{ __html: sanitizedContent }}></div>
+      <div className="post-content" dangerouslySetInnerHTML={{ __html: sanitizedContent }}></div>
       <button onClick={handleSubmit}>Submit Post</button>
     </div>
   );
 };
 
-export default Post;
+export default Admin;

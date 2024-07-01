@@ -11,12 +11,12 @@ const Showcase = ({ type, data }) => {
   let items = [];
   const listPerPage = 10;
   if (type === "list") {
-    items = data.slice(
+    items = data?.slice(
       activeIndex * listPerPage,
       (activeIndex + 1) * listPerPage
     );
   } else {
-    items = data.slice(0, (activeIndex + 1) * 8);
+    items = data?.slice(0, (activeIndex + 1) * 12);
   }
 
   if (type === "list") {
@@ -77,9 +77,9 @@ const Showcase = ({ type, data }) => {
                 <img src={image_focus} alt="" />
               </div>
               <div className="showcase-grid-title">
-                <b>{item.tag}</b>
+                <b>{item.label}</b>
                 <h3>{item.title}</h3>
-                <p>{item.review}</p>
+                <p>{item.reviewer.name}</p>
               </div>
             </Link>
           ))}

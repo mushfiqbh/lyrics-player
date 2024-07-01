@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Content.css";
 import image_focus from "../../images/focus.webp";
@@ -6,40 +6,41 @@ import image_trending from "../../images/ad.webp";
 import { StoreContext } from "../../context/StoreContext";
 
 const Content = () => {
-  const { blogs, incrementViews, popular } = useContext(StoreContext);
-  const latestPost = blogs[blogs.length - 1];
-  const adminChoice = blogs[1];
+  const { incrementViews, selectedPosts = {} } = useContext(StoreContext);
+  const { latestPost, adminChoice, popularPosts } = selectedPosts;
 
   return (
     <div className="content" id="content">
       <div className="content-left">
         <Link
-          to=""
-          onClick={() => incrementViews(latestPost._id)}
+          to={"/post/" + latestPost?.pathname}
+          onClick={() => incrementViews(latestPost?._id)}
           className="content-focus"
         >
           <div className="content-focus-image">
             <img src={image_focus} alt="" />
           </div>
           <div className="content-focus-title">
-            <b>{latestPost.tag}</b>
-            <h1>{latestPost.title}</h1>
+            <b>{latestPost?.label}</b>
+            <h1>{latestPost?.title}</h1>
             <br />
-            <p>{latestPost.author}</p>
+            <p>{latestPost?.author.name}</p>
           </div>
         </Link>
         <div className="content-slide">
-          {popular?.map((item, index) => (
+          {popularPosts?.map((item, index) => (
             <Link
-              to=""
+              to={"/post/" + item.pathname}
               key={index}
               onClick={() => incrementViews(item._id)}
               className="content-slide-card content-focus-title"
             >
-              <b>{item.tag}</b>
-              <h2>{item.title}</h2>
+              <b>{item.label}</b>
+              <h2>
+                {item.views} {item.title}
+              </h2>
               <br />
-              <p>{item.author}</p>
+              <p>{item.author.name}</p>
             </Link>
           ))}
         </div>
@@ -55,7 +56,7 @@ const Content = () => {
           </div>
           <div className="content-trending-joiner">জনপ্রিয়</div>
           <div className="content-trending-title">
-            <h2>{adminChoice.title}</h2>
+            <h2>{adminChoice?.title}</h2>
             <br />
             <button>এখন পড়ুন</button>
           </div>

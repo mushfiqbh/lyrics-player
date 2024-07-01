@@ -425,7 +425,7 @@ export const mentalHealthConditions = [
 
 export const catalogue = [
   {
-    type: "overview",
+    type: "AtoZ",
     title: "মানসিক স্বাস্থ্য",
     items: mentalHealthConditions,
     link: "",

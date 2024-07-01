@@ -8,6 +8,7 @@ import Search from "./pages/Search/Search";
 import AtoZ from "./pages/AtoZ/AtoZ";
 import Overview from "./pages/Overview/Overview";
 import Post from "./pages/Post/Post";
+import Admin from "./pages/Admin/Admin";
 
 const App = () => {
   return (
@@ -16,9 +17,10 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/post" element={<Post />} />
+        <Route path="/post/:link" element={<Post />} />
         <Route path="/overview" element={<AtoZ />} />
         <Route path="/overview/:link" element={<Overview />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
       <Footer />

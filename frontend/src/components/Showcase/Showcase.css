@@ -83,6 +83,7 @@
 }
 
 .showcase-grid-single {
+  height: 100%;
   color: var(--color-deep);
   background-color: #fff;
   border-radius: 10px;

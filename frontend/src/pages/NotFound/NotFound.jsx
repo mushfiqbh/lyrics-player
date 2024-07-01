@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./NotFound.css";
-import { posts } from "../../assets/assets";
 import Showcase from "../../components/Showcase/Showcase";
+import { StoreContext } from "../../context/StoreContext";
 
 const NotFound = () => {
+  const { posts } = useContext(StoreContext);
+
   return (
     <div className="not-found">
       <Showcase type="grid" data={posts} />
