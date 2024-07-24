@@ -10,11 +10,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.16.0",
     "axios": "^1.7.2",
     "dompurify": "^3.1.5",
+    "fuse.js": "^7.0.0",
     "quill": "^2.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-loading-skeleton": "^3.4.0",
     "react-quilljs": "^2.0.0",
     "react-router-dom": "^6.23.1"
   },

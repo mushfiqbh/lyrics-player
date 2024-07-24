@@ -1,66 +1,76 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "./Post.css";
 import DOMPurify from "dompurify";
-import postImage from "../../images/post2.webp";
-import authorImage from "../../images/hannah.webp";
 import { StoreContext } from "../../context/StoreContext";
 import Showcase from "../../components/Showcase/Showcase";
 
 const Post = () => {
-  const { posts, loading } = useContext(StoreContext);
-  const [showTable, setShowTable] = useState(true);
-  const { link } = useParams();
+  const { postId } = useParams();
+  const { posts, url, setPageTitle } = useContext(StoreContext);
+  const [loading, setLoading] = useState(true);
+  const [post, setPost] = useState({});
+  const [readingTime, setReadingTime] = useState(1);
+
+  const calculateReadingTime = (text) => {
+    const words = text?.split(" ")?.length;
+    const averageWPM = 225;
+    const readingTimeMinutes = Math.ceil(words / averageWPM);
+    setReadingTime(readingTimeMinutes);
+  };
+
+  useEffect(() => {
+    const thePost = posts.find((item) => item._id === postId);
+    setPost(thePost);
+    calculateReadingTime(thePost?.content);
+    setPageTitle(thePost?.title + " KhubValoMon.Com");
+    setLoading(false);
+  }, [posts]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  const post = posts.find((item) => item.pathname === link);
-  const sanitizedContent = DOMPurify.sanitize(post.content);
-  const relatedPosts = posts.filter((item) => item.label === post.label);
-
   if (!post) {
-    return <div>Item not found</div>;
+    return (
+      <div className="post">
+        This page was not found. Go to{" "}
+        <Link style={{ textDecoration: "underline" }} to="/overview/">
+          Overview List
+        </Link>
+      </div>
+    );
   }
+
+  const sanitizedContent = DOMPurify.sanitize(post.content);
+  const relatedPosts = posts.filter(
+    (item) => item.label === post.label && item._id !== postId
+  );
 
   return (
     <div className="post">
       <div className="post-title">
-        <Link className="label" to="">
-          {post.pathname}
+        <Link className="label" to={"/overview/" + post.label}>
+          {post.label.toUpperCase()}
         </Link>
         <h1>{post.title}</h1>
-        <p>{post.caption}</p>
+        <p>{post.subtitle}</p>
         <ul className="post-metadata">
           <li>
-            By <Link>{post.author.name}</Link>
+            লেখক <Link>{post.author.name}</Link>
           </li>
           <li>
-            Published on <span>{post.date}</span>
+            প্রকাশের সময় <span>{post.date.split("T")[0]}</span>
           </li>
-          <li>
-            Reviewed by <Link>{post.reviewer.name}</Link>
-          </li>
+          <li>পড়তে সময় লাগবে {readingTime} মিনিট</li>
         </ul>
       </div>
 
       <div className="post-image">
-        <img src={postImage} alt="" />
+        <img src={url + "/images/" + post.image} alt="" />
       </div>
 
       <div className="post-flex">
-        <div className="post-table">
-          <h3 id="setShowTable" onClick={() => setShowTable(!showTable)}>
-            সূচিপত্র
-          </h3>
-          <div style={{ display: showTable ? "" : "none" }}>
-            <a href="">বহির্মুখী-বহির্মুখী সম্পর্কের পরিচিতি</a>
-            <a href="">বহির্মুখী-বহির্মুখী সম্পর্কের সুবিধা</a>
-            <a href="">বহির্মুখী-বহির্মুখী সম্পর্কের চ্যালেঞ্জ</a>
-          </div>
-        </div>
-
         <div className="post-body">
           <div
             className="post-content"
@@ -76,14 +86,24 @@ const Post = () => {
               এবং বিশ্বাসযোগ্য রাখি।
             </p>
             <ol>
-              {post.sources.map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
+              {post.sources.map((item, index) => {
+                return (
+                  <li key={index}>
+                    {item.href.length ? (
+                      <Link to={item.href} target="_blank">
+                        {item.text}
+                      </Link>
+                    ) : (
+                      item.text
+                    )}
+                  </li>
+                );
+              })}
             </ol>
           </div>
 
           <div className="author">
-            <img src={authorImage} alt="" />
+            <img src="" alt="" />
             <div>
               <b>
                 By <a href="">{post.author.name}</a>

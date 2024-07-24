@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { posts } from "../../assets/assets";
+import Fuse from "fuse.js";
 import "./Searchbar.css";
+import { StoreContext } from "../../context/StoreContext";
 
 const Searchbar = ({ setSearchResult, setSearchPerformed }) => {
+  const { posts, catalog } = useContext(StoreContext);
   const inputRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -16,13 +18,19 @@ const Searchbar = ({ setSearchResult, setSearchPerformed }) => {
     setSearchTime(Date.now().toString());
     navigate(`/search?query=${encodeURIComponent(query)}`);
 
-    const data = query ? [query] : [];
+    const options = {
+      keys: ["title", "subtitle", "content", "desc"],
+      includeScore: true,
+      threshold: 0.3, // Adjust this value to control the fuzziness
+    };
+
+    const fuse = new Fuse([...posts, ...catalog], options);
+
+    const result = fuse.search(query);
+    const data = result.map(({ item }) => item);
     setSearchResult(data);
     setSearchPerformed(true);
   };
-
-  // const fetchData = async () => {
-  // };
 
   useEffect(() => {
     inputRef.current.focus();

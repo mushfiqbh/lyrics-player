@@ -39,8 +39,8 @@
 }
 
 .atoz-alpha > div {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(40px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 5px;
   margin-top: 5px;
 }
@@ -63,12 +63,16 @@
 
 .atoz-block {
   padding: 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   font-weight: bold;
   background-color: #fff;
   padding: 20px;
   gap: 20px;
+}
+
+.atoz-block a {
+  width: 150px;
 }
 
 .atoz-block a span {

@@ -1,23 +1,30 @@
-import React, { act, useState } from "react";
+import React, { act, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { assets, mentalHealthConditions } from "../../assets/assets";
+import { assets } from "../../assets/assets";
 import "./AtoZ.css";
+import { StoreContext } from "../../context/StoreContext";
 
 const AtoZ = () => {
+  const { catalog, setPageTitle } = useContext(StoreContext);
   const [activeAlpha, setActiveAlpha] = useState("All");
+  const [alphas, setAlphas] = useState([]);
 
-  const alphabet = [
-    ...new Set(mentalHealthConditions.map((item) => item.naam[0])),
-    ...new Set(
-      mentalHealthConditions.map((item) => item.name[0].toUpperCase())
-    ),
-  ];
-  const alphas = ["All", ...alphabet.sort()];
+  useEffect(() => {
+    setPageTitle("AtoZ Overviews - KhubValoMon.Com");
+  }, []);
+
+  useEffect(() => {
+    const alphabet = [
+      ...new Set(catalog.map((item) => item.title[0])),
+      ...new Set(catalog.map((item) => item.subtitle[0].toUpperCase())),
+    ];
+    setAlphas(["All", ...alphabet.sort()]);
+  }, [catalog]);
 
   return (
     <>
       <div className="atoz">
-        <h1>মানসিক স্বাস্থ্যের কন্ডিশন</h1>
+        <h1>এটুজেড কন্ডিশন</h1>
         <div className="atoz-animdot">
           <Link to="">
             <video src={assets.meditation}></video>
@@ -53,9 +60,7 @@ const AtoZ = () => {
             <b
               key={index}
               className={alpha === activeAlpha ? "active" : ""}
-              onClick={() =>
-                setActiveAlpha((prev) => (prev === alpha ? "All" : alpha))
-              }
+              onClick={() => setActiveAlpha(alpha)}
             >
               {alpha === "All" ? "সব" : alpha}
             </b>
@@ -64,17 +69,17 @@ const AtoZ = () => {
       </div>
 
       <div className="atoz-block">
-        {mentalHealthConditions.map((item, index) => {
+        {catalog.map((item, index) => {
           if (
             activeAlpha === "All" ||
-            activeAlpha === item.name[0] ||
-            activeAlpha === item.naam[0]
+            activeAlpha === item.title[0] ||
+            activeAlpha === item.subtitle[0]
           ) {
             return (
-              <Link to={item.link} key={index}>
-                {item.naam}
+              <Link to={"/overview/" + item.label} key={index}>
+                {item.title}
                 <br />
-                <span>({item.name})</span>
+                <span>({item.subtitle})</span>
               </Link>
             );
           }

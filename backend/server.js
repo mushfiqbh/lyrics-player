@@ -5,7 +5,7 @@ import { connectDB } from "./config/db.js";
 import userRouter from "./routes/userRoute.js";
 import postRouter from "./routes/postRoute.js";
 import catalogRouter from "./routes/catalogRoute.js";
-
+import authorRouter from "./routes/authorRoute.js";
 
 // app config
 const app = express();
@@ -19,10 +19,11 @@ app.use(cors());
 connectDB();
 
 // api endpoint
-app.use("/images", express.static("uploads"))
+app.use("/images", express.static("uploads"));
 app.use("/api/user", userRouter);
-app.use('/api/post', postRouter);
-app.use('/api/catalog', catalogRouter);
+app.use("/api/post", postRouter);
+app.use("/api/catalog", catalogRouter);
+app.use("/api/author", authorRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");

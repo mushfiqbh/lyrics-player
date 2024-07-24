@@ -1,86 +1,128 @@
-import React, { useState, useEffect } from "react";
-import "./Post.css";
-import DOMPurify from "dompurify";
-import { useQuill } from "react-quilljs";
-import "quill/dist/quill.snow.css";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Admin.css";
+import Showcase from "../../components/Showcase/Showcase";
+import { StoreContext } from "../../context/StoreContext";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 
 const Admin = () => {
-  const { quill, quillRef } = useQuill();
-  const [data, setData] = useState("<h1>world</h1>");
-  const sanitizedContent = DOMPurify.sanitize(data);
+  const { token, posts, catalog, setPageTitle, nonLabeledPosts } =
+    useContext(StoreContext);
+  const [loading, setLoading] = useState(true);
+  const [toggle, setToggle] = useState(true);
+  const [postList, setPostList] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (quill) {
-      quill.clipboard.dangerouslyPasteHTML("<h1>React Hook for Quill!</h1>");
+    setPostList([...posts].reverse());
+    setPageTitle("Admin Panel -" + " (mushfiqbh@gmail.com)");
+    setLoading(false);
+  }, [posts]);
 
-      quill.getModule('toolbar').addHandler('image', () => {
-        selectLocalImage();
-      });
-
-      quill.on("text-change", () => {
-        setData(quillRef.current.firstChild.innerHTML);
-      });
+  useEffect(() => {
+    if (!token) {
+      navigate("/login?forward=admin");
     }
-  }, [quill]);
+  }, []);
 
-  const selectLocalImage = () => {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
-    input.click();
+  const reverser = (list) => [...list].reverse();
 
-    input.onchange = () => {
-      const file = input.files[0];
-      if (file) {
-        uploadImage(file);
-      }
-    };
-  };
+  const handleChange = (event) => {
+    const value = event.target.value;
 
-  const uploadImage = async (file) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const response = await fetch('YOUR_SERVER_URL', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await response.json();
-      const imageUrl = data.url; // Assuming the server returns the URL of the uploaded image
-
-      const range = quill.getSelection();
-      quill.insertEmbed(range.index, 'image', imageUrl);
-    } catch (error) {
-      console.error('Error uploading image:', error);
+    if (value === "ALL") {
+      setPostList(reverser(posts));
+    } else if (value === "NON") {
+      setPostList(reverser(nonLabeledPosts));
+    } else {
+      const filterPosts = posts.filter(
+        (item) => item.label.toLowerCase() === value
+      );
+      setPostList(reverser(filterPosts));
     }
   };
 
-  const handleSubmit = async () => {
-    const postData = {
-      content: data,
-    };
-
-    try {
-      const response = await fetch('YOUR_SERVER_URL', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(postData),
-      });
-      const result = await response.json();
-      console.log('Post submitted:', result);
-    } catch (error) {
-      console.error('Error submitting post:', error);
-    }
-  };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="post">
-      <div ref={quillRef} id="editor"></div>
-      <div className="post-content" dangerouslySetInnerHTML={{ __html: sanitizedContent }}></div>
-      <button onClick={handleSubmit}>Submit Post</button>
+    <div className="admin">
+      <Stack
+        spacing={2}
+        direction="row"
+        className="admin-panel"
+        flexWrap="wrap"
+        gap="10px"
+        bgcolor="transparent"
+      >
+        <Button
+          variant={toggle ? "contained" : "outlined"}
+          color="info"
+          onClick={() => setToggle(true)}
+        >
+          POST LIST
+        </Button>
+        <Button
+          style={{ margin: "0" }}
+          variant={toggle ? "outlined" : "contained"}
+          color="info"
+          onClick={() => setToggle(false)}
+        >
+          OVERVIEW LIST
+        </Button>
+
+        <Button
+          style={{ margin: "0" }}
+          variant="text"
+          color="info"
+          onClick={() => navigate("/admin/post")}
+        >
+          Add Post
+        </Button>
+        <Button
+          style={{ margin: "0" }}
+          variant="text"
+          color="info"
+          onClick={() => navigate("/admin/overview")}
+        >
+          Add Overview
+        </Button>
+
+        <select
+          name="bycatalog"
+          lang="en"
+          onChange={handleChange}
+          disabled={!toggle}
+        >
+          <option value="ALL">ALL LABEL</option>
+          {catalog?.map((item, index) => {
+            return (
+              <option value={item.label} key={index}>
+                {item.subtitle}
+              </option>
+            );
+          })}
+          <option value="NON">NON LABELED</option>
+        </select>
+      </Stack>
+
+      <div className="admin-list">
+        {loading ? (
+          <div
+            style={{
+              minHeight: "768px",
+            }}
+          >
+            Loading...
+          </div>
+        ) : toggle ? (
+          <Showcase type="postList" data={postList} />
+        ) : (
+          <Showcase type="catalogList" data={catalog} />
+        )}
+      </div>
     </div>
   );
 };

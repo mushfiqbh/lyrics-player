@@ -1,5 +1,3 @@
-
-
 .showcase-loadmore {
   display: flex;
   align-items: center;
@@ -38,13 +36,16 @@
   background-color: #fff;
 }
 
-.showcase-list hr {
-  opacity: 0.3;
-}
-
 .showcase-list-single {
   width: 70%;
   cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-gree);
+}
+
+.showcase-list-single div {
+  padding: 10px;
 }
 
 .showcase-list-single h4 {
@@ -52,22 +53,30 @@
 }
 
 .showcase-list-flex {
+  width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .showcase-list-title {
   width: 85%;
 }
 
+.showcase-list-title p {
+  max-height: 25px;
+  overflow: hidden;
+}
+
 .showcase-list-image {
-  width: 15%;
+  display: flex;
+  align-items: center;
 }
 
 .showcase-list-image img {
   padding: 5px 0;
-  width: 100%;
-  border-radius: 10px;
+  width: 100px;
+  height: 70px;
 }
 
 .showcase-list-single:hover h3 {
@@ -122,6 +131,15 @@
   color: var(--color-green);
 }
 
+.showcase-grid-title h3 {
+  height: 64px;
+  overflow-y: auto;
+}
+
+.showcase-grid-title h3::-webkit-scrollbar {
+  display: none;
+}
+
 .showcase-grid-title p {
   color: var(--color-silver);
 }
@@ -134,6 +152,7 @@
   .showcase-list-single {
     padding: 0 10px;
     width: 100%;
+    flex-direction: column;
   }
 
   .showcase-list-title {
@@ -159,6 +178,7 @@
   }
 
   .showcase-grid-title h3 {
+    height: 52.8px;
     font-size: medium;
   }
 }

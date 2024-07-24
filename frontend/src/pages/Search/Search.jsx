@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Search.css";
 import Searchbar from "../../components/Searchbar/Searchbar";
 import Catalog from "../../components/Catalog/Catalog";
 import Showcase from "../../components/Showcase/Showcase";
+import { StoreContext } from "../../context/StoreContext";
 
 const Search = () => {
+  const { setPageTitle } = useContext(StoreContext);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
+
+  useEffect(() => {
+    setPageTitle("Search Page - KhubValoMon.Com")
+  }, [])
 
   return (
     <div className="search">
@@ -19,7 +25,7 @@ const Search = () => {
           <h3 className="search-message">
             {searchResult.length} টি ফলাফল পাওয়া গেছে
           </h3>
-          <Showcase type="list" data={searchResult} />
+          <Showcase type="searchList" data={searchResult} />
         </>
       ) : null}
       <Catalog />

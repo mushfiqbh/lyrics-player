@@ -4,13 +4,16 @@ import {
   getCatalog,
   updateCatalog,
   deleteCatalog,
+  catalogList,
 } from "../controllers/catalogController.js";
+import authMiddleware from "../middleware/auth.js";
 
 const catalogRouter = express.Router();
 
-catalogRouter.get("/index", getCatalog);
-catalogRouter.post("/create", createCatalog);
-catalogRouter.put("/update/:id", updateCatalog);
-catalogRouter.delete("/delete/:id", deleteCatalog);
+catalogRouter.get("/get/:id", getCatalog);
+catalogRouter.get("/index", catalogList);
+catalogRouter.post("/create", authMiddleware, createCatalog);
+catalogRouter.put("/update/:id", authMiddleware, updateCatalog);
+catalogRouter.delete("/delete/:id", authMiddleware, deleteCatalog);
 
 export default catalogRouter;

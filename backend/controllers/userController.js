@@ -7,6 +7,18 @@ const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET);
 };
 
+const getUserInfo = async (req, res) => {
+  const { userId } = req.body;
+
+  try {
+    const userInfo = await userModel.findById(userId, { password: 0 });
+
+    res.json({ success: true, data: userInfo });
+  } catch (error) {
+    res.json({ success: false, error });
+  }
+};
+
 // login user
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -42,7 +54,7 @@ const registerUser = async (req, res) => {
     }
     // validating email format and strong password
     if (!validator.isEmail(email)) {
-      return res.json({ success: f+alse, message: "Enter valid Email" });
+      return res.json({ success: f + alse, message: "Enter valid Email" });
     }
 
     if (password.length < 8) {
@@ -70,4 +82,4 @@ const registerUser = async (req, res) => {
   }
 };
 
-export { loginUser, registerUser };
+export { loginUser, registerUser, getUserInfo };

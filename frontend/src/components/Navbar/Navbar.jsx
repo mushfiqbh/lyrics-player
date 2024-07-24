@@ -21,9 +21,10 @@ const Navbar = () => {
             <NavLink to="/living-well">জীবন</NavLink>
             <NavLink to="/relationship">সম্পর্ক</NavLink>
             <NavLink to="/psychology">মনোবিজ্ঞান</NavLink>
-            <NavLink to="/trending">জনপ্রিয়</NavLink>
             <NavLink to="/about">আমাদের</NavLink>
-          </div>{" "}
+            <NavLink to="/admin">Admin</NavLink>
+            <NavLink to="/login">Login</NavLink>
+          </div>
         </div>
 
         <Link to="/search" className="navbar-search">

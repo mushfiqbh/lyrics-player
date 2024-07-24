@@ -2,14 +2,13 @@ import catalogModel from "../models/catalogModel.js";
 
 const createCatalog = async (req, res) => {
   const newCatalog = new catalogModel({
-    pathname: req.body.pathname,
     title: req.body.title,
-    label: req.body.label,
+    subtitle: req.body.subtitle,
+    label: req.body.subtitle.toLowerCase().split(" ").join("-"),
     desc: req.body.desc,
-    related: req.body.related,
-    reviewer: req.body.reviewer,
-    faqs: req.body.faqs,
-    keyterms: req.body.keyterms,
+    author: JSON.parse(req.body.author),
+    faqs: JSON.parse(req.body.faqs),
+    keyterms: JSON.parse(req.body.keyterms),
     date: req.body.date,
   });
 
@@ -17,7 +16,7 @@ const createCatalog = async (req, res) => {
     await newCatalog.save();
     res.json({ success: true, message: "Catalog Created" });
   } catch (error) {
-    res.json({ succes: false, message: "Error Creating Catalog" });
+    res.json({ success: false, message: "Error Creating Catalog", error });
   }
 };
 
@@ -30,16 +29,32 @@ const updateCatalog = async (req, res) => {
       return res.status(404).json({ message: "Catalog not found" });
     }
 
+    req.body.label = req.body.subtitle.toLowerCase().split(" ").join("-");
     await catalogModel.findByIdAndUpdate(id, req.body);
     const updatedCatalog = await catalogModel.findById(id);
 
-    res.status(200).json({ message: "Catalog Updated", data: updateCatalog });
+    res.status(200).json({ message: "Catalog Updated", data: updatedCatalog });
   } catch (error) {
     res.status(500).json({ message: "Error updating catalog", error });
   }
 };
 
 const getCatalog = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const catalog = await catalogModel.findById(id);
+
+    if (!catalog) {
+      return res.status(404).json({ message: "Catalog not found" });
+    }
+    res.json({ success: true, data: catalog });
+  } catch (error) {
+    res.json({ success: false, message: "Error Occurred", error });
+  }
+};
+
+const catalogList = async (req, res) => {
   try {
     const catalogs = await catalogModel.find({});
     res.json({ success: true, data: catalogs });
@@ -64,4 +79,4 @@ const deleteCatalog = async (req, res) => {
   }
 };
 
-export { createCatalog, updateCatalog, getCatalog, deleteCatalog };
+export { createCatalog, updateCatalog, catalogList, getCatalog, deleteCatalog };

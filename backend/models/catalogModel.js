@@ -5,7 +5,7 @@ const catalogSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  pathname: {
+  subtitle: {
     type: String,
     required: true,
   },
@@ -15,12 +15,8 @@ const catalogSchema = mongoose.Schema({
   },
   desc: {
     type: String,
-    required: true,
   },
-  related: {
-    type: Array,
-  },
-  reviewer: {
+  author: {
     type: Object,
     required: true,
   },

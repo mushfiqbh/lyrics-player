@@ -43,10 +43,6 @@
   color: var(--color-silver);
 }
 
-.overview-metadata a {
-  text-decoration: underline;
-}
-
 .overview-metadata a:hover {
   color: blue;
 }
@@ -112,9 +108,9 @@
 }
 
 .keyterms-trigger b {
-  padding: 10px;
+  padding: 5px 12px;
   font-size: large;
-  border-radius: 50px;
+  border-radius: 5px;
   background-color: var(--color-gree);
   cursor: pointer;
 }
@@ -127,6 +123,7 @@
 
 .keyterms-expand {
   padding: 20px;
+  padding-top: 0;
   font-size: large;
   color: #000;
 }

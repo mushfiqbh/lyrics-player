@@ -1,31 +1,23 @@
 import mongoose from "mongoose";
 
 const postSchema = mongoose.Schema({
-  pathname: {
-    type: String,
-    required: true,
-  },
   label: {
-    type: String,
+    type: Object,
     required: true,
   },
   title: {
     type: String,
     required: true,
   },
-  caption: {
+  subtitle: {
     type: String,
   },
   author: {
     type: Object,
     required: true,
   },
-  reviewer: {
-    type: Object,
-  },
   content: {
     type: String,
-    required: true,
   },
   sources: {
     type: Array,
@@ -37,6 +29,10 @@ const postSchema = mongoose.Schema({
   views: {
     type: Number,
     default: 0,
+  },
+  adminChoice: {
+    type: Boolean,
+    default: "false",
   },
   date: {
     type: Date,

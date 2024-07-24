@@ -41,4 +41,8 @@
     width: 100%;
     padding: 20px;
   }
+
+  .catalog-set {
+    min-width: 100%;
+  }
 }

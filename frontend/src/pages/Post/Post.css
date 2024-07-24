@@ -31,10 +31,6 @@
   color: var(--color-silver);
 }
 
-.post-metadata a {
-  text-decoration: underline;
-}
-
 .post-metadata a:hover {
   color: blue;
 }
@@ -56,35 +52,12 @@
 }
 
 .post-ad {
-  width: 25%;
+  width: 30%;
   padding: 20px;
-}
-
-.post-table {
-  width: 25%;
-  padding: 20px;
-  border-radius: 10px;
-  background-color: var(--color-gree);
-  font-size: medium;
-}
-
-.post-table h3 {
-  cursor: pointer;
-  color: var(--color-deep);
-}
-
-.post-table div {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.post-table a:hover {
-  color: var(--color-red);
 }
 
 .post-body {
-  width: 50%;
+  width: 70%;
   font-size: 1.2rem;
   padding: 5px 20px;
   text-align: justify;
@@ -170,6 +143,11 @@
   font-size: medium;
 }
 
+.post-body .sources li a {
+  color: var(--color-deepest);
+  text-decoration: underline;
+}
+
 .post-body .author {
   display: flex;
   align-items: center;
@@ -209,10 +187,6 @@
     width: 100%;
   }
 
-  .post-table {
-    padding: 10px;
-  }
-
   .post-content {
     padding: 20px 0;
   }
@@ -225,7 +199,11 @@
     flex-direction: column;
   }
 
-  .post-table,
+  .post-body {
+    padding: 0;
+    width: 100%;
+  }
+
   .post-content,
   .post-ad {
     width: 100%;

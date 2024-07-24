@@ -8,16 +8,16 @@ const Catalog = () => {
     <div className="catalog" id="catalog">
       {catalogue?.map((set, index) => (
         <div key={index} className="catalog-set">
-          <Link to="">
-            <h1>{set.type}</h1>
+          <Link to={set.pathname}>
+            <h1>{set.title}</h1>
           </Link>
           <hr />
           <div className="catalog-block">
             {set.includes.map((item, index) => (
-              <Link key={index} to="">{item.naam}</Link>
+              <Link key={index} to={item.pathname}>{item.subtitle}</Link>
             ))}
           </div>
-          <Link to="">সবগুলো দেখুন</Link>
+          <Link to={set.pathname}>সবগুলো দেখুন</Link>
         </div>
       ))}
     </div>
