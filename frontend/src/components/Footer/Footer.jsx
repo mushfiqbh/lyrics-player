@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import "./Foorer.css";
 
-const Footer = () => {
+const Footer = ({ setShowHide }) => {
   return (
     <div className="footer">
       <img src={assets.verywellmind} alt="" />
@@ -24,7 +24,9 @@ const Footer = () => {
           <Link to="">Living Well</Link>
           <Link to="">Relationships</Link>
           <Link to="">Psychology</Link>
-          <Link to="">Trending</Link>
+          <b style={{ cursor: "pointer" }} onClick={() => setShowHide(true)}>
+            Admin Panel
+          </b>
         </div>
         <div>
           <Link to="">Meet Our Review Board</Link>

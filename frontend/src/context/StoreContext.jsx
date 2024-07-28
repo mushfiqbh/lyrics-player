@@ -4,8 +4,9 @@ import axios from "axios";
 export const StoreContext = createContext(null);
 
 const StoreContextProvider = (props) => {
-  const [url] = useState("http://127.0.0.1:4000");
   const [token, setToken] = useState("");
+  const [userInfo, setUserInfo] = useState({});
+  const [userInfoList, setUserInfoList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [catalog, setCatalog] = useState([]);
   const [posts, setPosts] = useState([]);
@@ -13,6 +14,15 @@ const StoreContextProvider = (props) => {
   const [authors, setAuthors] = useState([]);
   const [adminChoice, setAdminChoice] = useState({});
   const [nonLabeledPosts, setNonLabeledPosts] = useState([]);
+  const url = import.meta.env.VITE_SERVER_URL;
+
+  const getUserInfo = async (token) => {
+    const response = await axios.get(url + "/api/user/userinfo", {
+      headers: { token },
+    });
+    setUserInfo(response.data.userInfo);
+    setUserInfoList(response.data.userInfoList);
+  };
 
   const setPageTitle = (title) => {
     const titleTag = document.querySelector("head title");
@@ -41,6 +51,29 @@ const StoreContextProvider = (props) => {
     }
   };
 
+  const updateUserInfoByOwner = async (targetId, data) => {
+    if (userInfo.permission.includes("ownership")) {
+      const response = await axios.put(
+        url + "/api/user/update/" + targetId,
+        data,
+        { headers: { token } }
+      );
+
+      if (response.status === 200) {
+        const update = userInfoList.map((user) => {
+          if (user._id === targetId) {
+            return { ...user, permission: data.permission };
+          } else {
+            return user;
+          }
+        });
+        setUserInfoList(update);
+      } else {
+        console.log(response.error);
+      }
+    }
+  };
+
   const updateAdminChoice = async (ID) => {
     if (adminChoice._id === ID) {
       return;
@@ -58,6 +91,9 @@ const StoreContextProvider = (props) => {
       url + "/api/post/update/" + adminChoice._id,
       {
         adminChoice: false,
+      },
+      {
+        headers: { token },
       }
     );
 
@@ -72,11 +108,9 @@ const StoreContextProvider = (props) => {
     if (adminChoice._id === ID) {
       updateAdminChoice(posts[0]._id);
     }
-    const response = await axios.delete(
-      url + "/api/post/delete/" + ID,
-      {},
-      { headers: { token } }
-    );
+    const response = await axios.delete(url + "/api/post/delete/" + ID, {
+      headers: { token },
+    });
     if (response.status === 200) {
       const updated = posts.filter((item) => item._id !== ID);
       setPosts(updated);
@@ -112,11 +146,10 @@ const StoreContextProvider = (props) => {
   };
 
   const deleteCatalog = async (ID) => {
-    const response = await axios.delete(
-      url + "/api/catalog/delete/" + ID,
-      {},
-      { headers: { token } }
-    );
+    const response = await axios.delete(url + "/api/catalog/delete/" + ID, {
+      headers: { token },
+    });
+
     if (response.status === 200) {
       const updated = catalog
         .filter((item) => item._id !== ID)
@@ -124,7 +157,7 @@ const StoreContextProvider = (props) => {
 
       setCatalog(updated);
     } else {
-      console.log(response.error);
+      console.log(response.data);
     }
   };
 
@@ -162,9 +195,10 @@ const StoreContextProvider = (props) => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setToken(localStorage.getItem("token"));
-      
+    const TOKEN = localStorage.getItem("token");
+    if (TOKEN) {
+      setToken(TOKEN);
+      getUserInfo(TOKEN);
     }
     fetchPosts();
     fetchCatalog();
@@ -180,6 +214,11 @@ const StoreContextProvider = (props) => {
     url,
     token,
     setToken,
+    userInfo,
+    setUserInfo,
+    getUserInfo,
+    userInfoList,
+    setUserInfoList,
     setPageTitle,
     incrementViews,
     loading,
@@ -197,6 +236,7 @@ const StoreContextProvider = (props) => {
     deletePost,
     adminChoice,
     updateAdminChoice,
+    updateUserInfoByOwner,
   };
 
   return (

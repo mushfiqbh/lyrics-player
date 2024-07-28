@@ -3,10 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import "./AddOverview.css";
 import { StoreContext } from "../../context/StoreContext";
-import FreeSoloCreateOptionDialog from "../../UI/SelectDialogue.jsx";
+import FreeSoloCreateOptionDialog from "../../utils/SelectDialogue.jsx";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-
 const AddOverview = () => {
   const navigate = useNavigate();
   const { url, token, loading, setLoading } = useContext(StoreContext);
@@ -204,14 +203,6 @@ const AddOverview = () => {
     return <div>Loading...</div>;
   }
 
-  if (!token) {
-    if (overviewId) {
-      navigate("/login?forward=overview&id=" + overviewId);
-    } else {
-      navigate("/login?forward=overview");
-    }
-  }
-
   return (
     <div className="create-overview">
       <form onSubmit={createOverview}>
@@ -250,14 +241,14 @@ const AddOverview = () => {
             </div>
 
             <div>
-              <label htmlFor="subtitle">Subtitle (English)</label>
+              <label htmlFor="subtitle">Subtitle (Label)</label>
               <input
                 lang="en"
                 type="text"
                 name="subtitle"
                 value={data.subtitle}
                 onChange={handleChange}
-                placeholder="Title (English Only)"
+                placeholder="Label (English Only)"
                 required
               />
             </div>
@@ -310,7 +301,8 @@ const AddOverview = () => {
                 {data.faqs.map((item, index) => (
                   <fieldset key={index}>
                     <legend lang="en">{"FAQ " + (index + 1)}</legend>
-                    <textarea
+                    <input
+                      type="text"
                       name="question"
                       value={data.faqs[index].question}
                       onChange={(event) => handleFaqsChange(event, index)}
@@ -332,7 +324,8 @@ const AddOverview = () => {
                 {data.keyterms.map((item, index) => (
                   <fieldset key={index}>
                     <legend lang="en">{"KEY-TERM " + (index + 1)}</legend>
-                    <textarea
+                    <input
+                      type="text"
                       name="key"
                       value={data.keyterms[index].key}
                       onChange={(event) => handleFaqsChange(event, index)}

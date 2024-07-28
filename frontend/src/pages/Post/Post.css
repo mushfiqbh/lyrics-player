@@ -143,6 +143,10 @@
   font-size: medium;
 }
 
+.post-body .sources li {
+  padding-bottom: 10px;
+}
+
 .post-body .sources li a {
   color: var(--color-deepest);
   text-decoration: underline;

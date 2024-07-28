@@ -18,7 +18,8 @@ export default function FreeSoloCreateOptionDialog({
   label,
   setButtonText,
 }) {
-  const { url, loading, authors, setAuthors } = React.useContext(StoreContext);
+  const { url, token, loading, authors, setAuthors } =
+    React.useContext(StoreContext);
   const [open, toggleOpen] = React.useState(false);
   const [dialogValue, setDialogValue] = React.useState({
     name: "",
@@ -37,7 +38,10 @@ export default function FreeSoloCreateOptionDialog({
     event.preventDefault();
     const response = await axios.post(
       url + "/api/author/addauthor",
-      dialogValue
+      dialogValue,
+      {
+        headers: { token },
+      }
     );
     if (response.data.success) {
       setData({

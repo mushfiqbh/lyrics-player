@@ -92,6 +92,7 @@
   padding: 0 10px;
 }
 
+.form-right input,
 .form-right textarea {
   padding: 10px;
   font-size: large;
@@ -101,12 +102,7 @@
   resize: vertical;
 }
 
-.form-right textarea::-webkit-scrollbar {
-  display: none;
-}
-
-.form-right textarea[name="answer"],
-.form-right textarea[name="terms"] {
+.form-right textarea {
   height: 100px;
 }
 

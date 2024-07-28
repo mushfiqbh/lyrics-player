@@ -85,17 +85,18 @@ const Post = () => {
               কিভাবে আমরা তথ্য-চেক করি এবং আমাদের বিষয়বস্তু সঠিক, নির্ভরযোগ্য
               এবং বিশ্বাসযোগ্য রাখি।
             </p>
-            <ol>
+            <ol lang="en">
               {post.sources.map((item, index) => {
                 return (
                   <li key={index}>
-                    {item.href.length ? (
-                      <Link to={item.href} target="_blank">
-                        {item.text}
-                      </Link>
-                    ) : (
-                      item.text
-                    )}
+                    <>
+                      {item.text}{" "}
+                      {item.href.length && (
+                        <Link to={item.href} target="_blank">
+                          VIEW SOURCE
+                        </Link>
+                      )}
+                    </>
                   </li>
                 );
               })}

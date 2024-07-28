@@ -1,4 +1,5 @@
 import catalogModel from "../models/catalogModel.js";
+import userModel from "../models/userModel.js";
 
 const createCatalog = async (req, res) => {
   const newCatalog = new catalogModel({
@@ -54,15 +55,6 @@ const getCatalog = async (req, res) => {
   }
 };
 
-const catalogList = async (req, res) => {
-  try {
-    const catalogs = await catalogModel.find({});
-    res.json({ success: true, data: catalogs });
-  } catch (error) {
-    res.json({ success: false, message: "Error Occurred" });
-  }
-};
-
 const deleteCatalog = async (req, res) => {
   const { id } = req.params;
 
@@ -72,6 +64,11 @@ const deleteCatalog = async (req, res) => {
       return res.status(404).json({ message: "Catalog not found" });
     }
 
+    const permit = await userModel.findById(req.body.userId);
+    if (!permit.permission.includes("deleteOverview")) {
+      return res.status(401).json({ message: "Permission Denied" });
+    }
+
     await catalogModel.findByIdAndDelete(id);
     res.status(200).json({ message: "Catalog Deleted" });
   } catch (error) {
@@ -79,4 +76,13 @@ const deleteCatalog = async (req, res) => {
   }
 };
 
-export { createCatalog, updateCatalog, catalogList, getCatalog, deleteCatalog };
+const catalogList = async (req, res) => {
+  try {
+    const catalogs = await catalogModel.find({});
+    res.json({ success: true, data: catalogs });
+  } catch (error) {
+    res.json({ success: false, message: "Error Occurred" });
+  }
+};
+
+export { createCatalog, updateCatalog, getCatalog, deleteCatalog, catalogList };

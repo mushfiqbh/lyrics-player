@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
@@ -12,28 +12,34 @@ import Admin from "./pages/Admin/Admin";
 import CreatePost from "./components/AdminCreatepost/CreatePost";
 import AddOverview from "./components/AddOverview/AddOverview";
 import AboutUs from "./pages/AboutUs/AboutUs";
-import Login from "./pages/Login/Login";
+import LoginPopup from "./components/Login/LoginPopup";
+import PrivateOutlet from "./utils/PrivateOutlet";
 
 const App = () => {
+  const [showHide, setShowHide] = useState(false);
+
   return (
     <div className="app">
+      {showHide && <LoginPopup setShowHide={setShowHide} />}
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/search" element={<Search />} />
         <Route path="/post/:postId" element={<Post />} />
         <Route path="/overview" element={<AtoZ />} />
         <Route path="/overview/:label" element={<Overview />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/admin/post" element={<CreatePost />} />
-        <Route path="/admin/post/:postId" element={<CreatePost />} />
-        <Route path="/admin/overview" element={<AddOverview />} />
-        <Route path="/admin/overview/:overviewId" element={<AddOverview />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/*" element={<NotFound />} />
+
+        <Route path="/*" element={<PrivateOutlet setShowHide={setShowHide} />}>
+          <Route path="admin" element={<Admin />} />
+          <Route path="admin/post" element={<CreatePost />} />
+          <Route path="admin/post/:postId" element={<CreatePost />} />
+          <Route path="admin/overview" element={<AddOverview />} />
+          <Route path="admin/overview/:overviewId" element={<AddOverview />} />
+        </Route>
       </Routes>
-      <Footer />
+      <Footer setShowHide={setShowHide} />
     </div>
   );
 };

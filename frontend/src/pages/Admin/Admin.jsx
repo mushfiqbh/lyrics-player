@@ -7,24 +7,18 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 
 const Admin = () => {
-  const { token, posts, catalog, setPageTitle, nonLabeledPosts } =
+  const { posts, catalog, setPageTitle, nonLabeledPosts } =
     useContext(StoreContext);
   const [loading, setLoading] = useState(true);
   const [toggle, setToggle] = useState(true);
   const [postList, setPostList] = useState([]);
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     setPostList([...posts].reverse());
     setPageTitle("Admin Panel -" + " (mushfiqbh@gmail.com)");
     setLoading(false);
   }, [posts]);
-
-  useEffect(() => {
-    if (!token) {
-      navigate("/login?forward=admin");
-    }
-  }, []);
 
   const reverser = (list) => [...list].reverse();
 

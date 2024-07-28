@@ -7,8 +7,15 @@ import Button from "@mui/material/Button";
 import LoadMore from "./LoadMore";
 
 const Showcase = ({ type, data }) => {
-  const { url, posts, adminChoice, incrementViews, deletePost, deleteCatalog } =
-    useContext(StoreContext);
+  const {
+    url,
+    userInfo,
+    posts,
+    adminChoice,
+    incrementViews,
+    deletePost,
+    deleteCatalog,
+  } = useContext(StoreContext);
   const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
   let items = [];
@@ -115,19 +122,21 @@ const Showcase = ({ type, data }) => {
                 >
                   View
                 </Button>
-                <Button
-                  style={{ height: "min-content" }}
-                  color="error"
-                  variant={
-                    adminChoice._id === item._id ? "contained" : "outlined"
-                  }
-                  onClick={() => {
-                    const yes = confirm("Are you sure to delete?");
-                    yes ? deletePost(item._id) : null;
-                  }}
-                >
-                  Delete
-                </Button>
+                {userInfo?.permission?.includes("deletePost") && (
+                  <Button
+                    style={{ height: "min-content" }}
+                    color="error"
+                    variant={
+                      adminChoice._id === item._id ? "contained" : "outlined"
+                    }
+                    onClick={() => {
+                      const yes = confirm("Are you sure to delete?");
+                      yes ? deletePost(item._id) : null;
+                    }}
+                  >
+                    Delete
+                  </Button>
+                )}
               </Stack>
             </div>
           );
@@ -179,17 +188,19 @@ const Showcase = ({ type, data }) => {
               >
                 View
               </Button>
-              <Button
-                style={{ height: "min-content" }}
-                color="error"
-                variant="outlined"
-                onClick={() => {
-                  const yes = confirm("Are you sure to delete?");
-                  yes ? deleteCatalog(item._id) : null;
-                }}
-              >
-                Delete
-              </Button>
+              {userInfo?.permission?.includes("deleteOverview") && (
+                <Button
+                  style={{ height: "min-content" }}
+                  color="error"
+                  variant="outlined"
+                  onClick={() => {
+                    const yes = confirm("Are you sure to delete?");
+                    yes ? deleteCatalog(item._id) : null;
+                  }}
+                >
+                  Delete
+                </Button>
+              )}
             </Stack>
           </div>
         ))}

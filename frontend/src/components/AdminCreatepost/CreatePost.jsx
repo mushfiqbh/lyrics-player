@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import { StoreContext } from "../../context/StoreContext";
@@ -7,23 +7,32 @@ import axios from "axios";
 import DOMPurify from "dompurify";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import FreeSoloCreateOptionDialog from "../../UI/SelectDialogue.jsx";
+import FreeSoloCreateOptionDialog from "../../utils/SelectDialogue.jsx";
+import insertAtCursor from "../../utils/insertAtCursor.js";
 
 const CreatePost = () => {
   const {
     url,
     token,
+    userInfo,
     loading,
     setLoading,
-    deletePost,
     adminChoice,
     updateAdminChoice,
   } = useContext(StoreContext);
   const { postId } = useParams();
+  const textareaRef = useRef(null);
   const navigate = useNavigate();
   const [buttonText, setButtonText] = useState("Save");
   const [step, setStep] = useState(1);
   const [file, setFile] = useState(false);
+  const [contentData, setContentData] = useState({
+    markup: "",
+    input1: "",
+    input2: "",
+    placeholder1: "",
+    placeholder2: "",
+  });
   const [data, setData] = useState({
     label: "",
     title: "",
@@ -74,6 +83,30 @@ const CreatePost = () => {
     }
   }, []);
 
+  const handleInsertText = () => {
+    let textToInsert = "";
+    if (contentData.markup === "title") {
+      textToInsert = "<h2>" + contentData.input1 + "</h2>";
+    } else if (contentData.markup === "quote") {
+      textToInsert = `<div class='quote'>${contentData.input1}<b>${contentData.input2}</b></div>`;
+    } else if (contentData.markup === "advice") {
+      textToInsert = `<div class='advice'>${contentData.input1}<hr/></div>`;
+    }
+
+    const newValue = insertAtCursor(textareaRef.current, textToInsert);
+    setData({
+      ...data,
+      content: newValue,
+    });
+    setContentData({
+      markup: "",
+      input1: "",
+      input2: "",
+      placeholder1: "",
+      placeholder2: "",
+    });
+  };
+
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -109,6 +142,7 @@ const CreatePost = () => {
     const { label, title, subtitle, author, sources, content, date } = data;
 
     let response;
+    // Update Existing Post
     if (postId && postId.length) {
       response = await axios.put(
         url + "/api/post/update/" + postId,
@@ -122,6 +156,7 @@ const CreatePost = () => {
     } else if (!file) {
       alert("Please upload an image");
       setButtonText("Save");
+      // Create New Post
     } else {
       const formData = new FormData();
       formData.append("label", label.toLowerCase());
@@ -160,14 +195,6 @@ const CreatePost = () => {
 
   if (loading) {
     return <div>Loading...</div>;
-  }
-
-  if (!token) {
-    if (postId) {
-      navigate("/login?forward=post&id=" + postId);
-    } else {
-      navigate("/login?forward=post");
-    }
   }
 
   return (
@@ -325,19 +352,8 @@ const CreatePost = () => {
               </Button>
             </div>
 
-            {postId && (
+            {userInfo?.permission?.includes("adminChoice") && postId && (
               <Stack direction="row">
-                <Button
-                  type="button"
-                  color="error"
-                  onClick={() => {
-                    const yes = confirm("Are you sure to delete?");
-                    yes ? deletePost(postId) : null;
-                    navigate("/admin");
-                  }}
-                >
-                  DELETE THIS POST
-                </Button>
                 <Button
                   type="button"
                   color="success"
@@ -358,9 +374,11 @@ const CreatePost = () => {
                 variant="text"
                 color="warning"
                 onClick={() =>
-                  setData({
-                    ...data,
-                    content: (data.content += "\r\n<h2></h2>"),
+                  setContentData({
+                    ...contentData,
+                    markup: "title",
+                    placeholder1: "Title",
+                    placeholder2: "",
                   })
                 }
               >
@@ -370,10 +388,11 @@ const CreatePost = () => {
                 variant="text"
                 color="warning"
                 onClick={() =>
-                  setData({
-                    ...data,
-                    content: (data.content +=
-                      "\r\n<blockquote>*****</blockquote>"),
+                  setContentData({
+                    ...contentData,
+                    markup: "blockquote",
+                    placeholder1: "Quote Text",
+                    placeholder2: "",
                   })
                 }
               >
@@ -383,10 +402,11 @@ const CreatePost = () => {
                 variant="text"
                 color="warning"
                 onClick={() =>
-                  setData({
-                    ...data,
-                    content: (data.content +=
-                      "\r\n<div class='quote'>******<b>***</b></div>"),
+                  setContentData({
+                    ...contentData,
+                    markup: "quote",
+                    placeholder1: "Quote Text",
+                    placeholder2: "Who Said?",
                   })
                 }
               >
@@ -396,18 +416,59 @@ const CreatePost = () => {
                 variant="text"
                 color="warning"
                 onClick={() =>
-                  setData({
-                    ...data,
-                    content: (data.content +=
-                      "\r\n<div class='advice'>*****<hr/></div>"),
+                  setContentData({
+                    ...contentData,
+                    markup: "advice",
+                    placeholder1: "Quote Title",
+                    placeholder2: "",
                   })
                 }
               >
                 Advice
               </Button>
             </Stack>
+
+            {contentData.markup && (
+              <Stack direction="column">
+                {contentData.placeholder1 && (
+                  <input
+                    type="text"
+                    name="input1"
+                    value={contentData.input1}
+                    placeholder={contentData.placeholder1}
+                    onChange={(e) =>
+                      setContentData({
+                        ...contentData,
+                        input1: e.target.value,
+                      })
+                    }
+                  />
+                )}
+
+                {contentData.placeholder2 && (
+                  <input
+                    type="text"
+                    name="input2"
+                    value={contentData.input2}
+                    placeholder={contentData.placeholder2}
+                    onChange={(e) =>
+                      setContentData({
+                        ...contentData,
+                        input2: e.target.value,
+                      })
+                    }
+                  />
+                )}
+
+                <button type="button" onClick={handleInsertText}>
+                  INSERT
+                </button>
+              </Stack>
+            )}
+
             <div>
               <textarea
+                ref={textareaRef}
                 name="content"
                 value={data.content}
                 onChange={handleChange}

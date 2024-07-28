@@ -17,7 +17,10 @@ const Overview = () => {
   };
 
   useEffect(() => {
-    const theOverview = catalog.find((item) => item.label === label);
+    const theOverview = catalog.find(
+      (item) => item.label.toLowerCase() === label.toLowerCase()
+    );
+    
     setOverview(theOverview);
     setPageTitle(
       theOverview?.title + " - " + theOverview?.label + " KhubValoMon.Com"

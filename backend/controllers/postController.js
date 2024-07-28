@@ -1,11 +1,14 @@
 import postModel from "../models/postModel.js";
+import userModel from "../models/userModel.js";
 import fs from "fs";
 
 const createPost = async (req, res) => {
   let image_filename = `${req.file.filename}`;
+  const post_label = req.body.label.split(" ").join("-");
+
   const newPost = new postModel({
     title: req.body.title,
-    label: req.body.label,
+    label: post_label,
     subtitle: req.body.subtitle,
     author: JSON.parse(req.body.author),
     content: req.body.content,
@@ -31,9 +34,8 @@ const updatePost = async (req, res) => {
       return res.status(404).json({ message: "Post not found" });
     }
 
-    await postModel.findByIdAndUpdate(id, req.body);
-    const updatedPost = await postModel.findById(id);
-    res.status(200).json({ message: "Post Updated", data: updatedPost });
+    const updatedPost = await postModel.findByIdAndUpdate(id, req.body);
+    res.status(200).json({ success: true, message: "Post Updated" });
   } catch (error) {
     res.status(500).json({ message: "Error updating post", error });
   }
@@ -63,15 +65,6 @@ const incrementPost = async (req, res) => {
   }
 };
 
-const getPostList = async (req, res) => {
-  try {
-    const posts = await postModel.find({});
-    res.json({ success: true, data: posts });
-  } catch (error) {
-    res.json({ success: false, message: "Error Occurred" });
-  }
-};
-
 const getPost = async (req, res) => {
   const { id } = req.params;
 
@@ -95,6 +88,11 @@ const deletePost = async (req, res) => {
       return res.status(404).json({ message: "Post not found" });
     }
 
+    const permit = await userModel.findById(req.body.userId);
+    if (!permit.permission.includes("deletePost")) {
+      return res.status(401).json({ message: "Permission Denied" });
+    }
+
     fs.unlink(`uploads/${post.image}`, () => {});
     await postModel.findByIdAndDelete(id);
     res.status(200).json({ message: "Post Deleted" });
@@ -103,11 +101,13 @@ const deletePost = async (req, res) => {
   }
 };
 
-export {
-  createPost,
-  updatePost,
-  getPostList,
-  deletePost,
-  getPost,
-  incrementPost,
+const postList = async (req, res) => {
+  try {
+    const posts = await postModel.find({});
+    res.json({ success: true, data: posts });
+  } catch (error) {
+    res.json({ success: false, message: "Error Occurred" });
+  }
 };
+
+export { createPost, updatePost, incrementPost, getPost, deletePost, postList };
