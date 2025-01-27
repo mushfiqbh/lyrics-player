@@ -1,0 +1,81 @@
+.statbar {
+  width: 100%;
+  color: aliceblue;
+  background-color: var(--color-deep);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10%;
+  min-height: 5.5rem;
+}
+
+.statbar_slogan {
+  width: 55%;
+  min-height: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px 0 0;
+}
+
+.statbar_slogan h3:nth-child(2) {
+  color: var(--color-green);
+}
+
+.statbar_slogan img {
+  width: 100px;
+}
+
+.statbar_stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 45%;
+  min-height: inherit;
+}
+
+.statbar_stats_single {
+  padding: 0 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-right: 1px dashed #fff;
+}
+
+.statbar_stats_single b {
+  padding-left: 10px;
+  font-size: 30px;
+}
+
+.statbar_stats_single:hover {
+  color: var(--color-red);
+  transition: all 0.2s;
+}
+
+@media (max-width: 480px) {
+  .statbar {
+    width: 100vw;
+    padding: 10px;
+    flex-direction: column;
+  }
+
+  .statbar_slogan {
+    width: 100%;
+    font-size: small;
+    padding: 0;
+  }
+
+  .statbar_logo img {
+    float: right;
+    height: 100px;
+  }
+
+  .statbar_stats {
+    width: 100%;
+    font-size: small;
+  }
+
+  .statbar_stats_single:nth-child(1) {
+    padding-left: 0;
+  }
+}

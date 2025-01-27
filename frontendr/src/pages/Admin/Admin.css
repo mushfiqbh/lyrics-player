@@ -1,0 +1,23 @@
+.admin_panel {
+  width: 80%;
+  margin: 20px 10%;
+  background-color: #fff;
+}
+
+.admin_panel select {
+  padding: 5px;
+  font-size: 0.9rem;
+  color: var(--color-deep);
+  border: none;
+  outline: none;
+}
+
+.admin_panel select:hover {
+  background-color: var(--color-gree);
+}
+
+@media (max-width: 600px) {
+  .admin_panel {
+    margin: 20px;
+  }
+}

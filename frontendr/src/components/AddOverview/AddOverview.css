@@ -1,0 +1,131 @@
+.create_overview {
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  margin: 20px 10%;
+}
+
+.create_overview form {
+  width: 100%;
+}
+
+.mui_input fieldset {
+  border: none;
+}
+
+.form_flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.form_left {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form_left > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.form_left a {
+  margin-left: 30%;
+  font-size: small;
+  color: var(--color-silver);
+}
+
+.form_left input {
+  width: 70%;
+  padding: 10px;
+  font-size: large;
+  outline: none;
+  border: none;
+}
+
+.form_left textarea {
+  width: 70%;
+  height: 300px;
+  padding: 10px;
+  font-size: large;
+  outline: none;
+  border: none;
+  resize: vertical;
+}
+
+.form_right {
+  width: 50%;
+  display: flex;
+  row-gap: 20px;
+  flex-direction: column;
+}
+
+.form_top_label {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-greenish);
+}
+
+.form_top_label:hover {
+  background-color: var(--color-gree);
+}
+
+.form_top_label p.active {
+  font-weight: bold;
+}
+
+.form_right fieldset {
+  border: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.form_right legend {
+  font-size: small;
+  padding: 0 10px;
+}
+
+.form_right input,
+.form_right textarea {
+  padding: 10px;
+  font-size: large;
+  outline: none;
+  border: none;
+  overflow-y: auto;
+  resize: vertical;
+}
+
+.form_right textarea {
+  height: 100px;
+}
+
+@media (max-width: 768px) {
+  .create_overview {
+    margin: 20px;
+  }
+
+  .form_flex {
+    flex-direction: column;
+  }
+
+  .form_left input,
+  .form_left textarea {
+    width: 100%;
+  }
+
+  .form_left > div > label {
+    display: none;
+  }
+
+  .form_left,
+  .form_right {
+    width: 100%;
+  }
+}
